@@ -1,9 +1,9 @@
 #include "Chip8CPU.h"
 
 
-Chip8CPU::Chip8CPU(PWSTR rom)
+Chip8CPU::Chip8CPU(PWSTR romPath)
 {
-	romPath = rom;
+	this->romPath = romPath;
 }
 
 Chip8CPU::~Chip8CPU()
@@ -18,18 +18,19 @@ void Chip8CPU::CPUReset()
 
 	// load in the game
 	FILE* rom;
-	if (_wfopen_s(&rom, romPath, L"rb") == 0)
+	if (_wfopen_s(&rom, romPath, L"rb") != 0)
 	{
-		system("pause");
-		throw "Chip8CPU::CPUReset()/_wfopen_s(): could not open the ROM file";
+		MessageBox(NULL, "Chip8CPU::CPUReset()/_wfopen_s(): could not open the ROM file", NULL, MB_OK);
+		MessageBoxW(NULL, romPath, L"romPath:", MB_OK);
+		throw;
 	}
 
-	fread_s(&m_GameMemory[0x200], 0xFFF, 1, 0xFFF, rom);
+	fread_s(&m_GameMemory[0x200], 0xFFF, 1, 0xDFF, rom);
 	if (ferror(rom) != 0)
 	{
-		//system("pause");
 		fclose(rom);
-		throw "Chip8CPU::CPUReset()/fread_s: error reading the ROM file";
+		MessageBox(NULL, "Chip8CPU::CPUReset()/fread_s: error reading the ROM file", NULL, MB_OK);
+		throw;
 	}
 	fclose(rom);
 }

@@ -44,7 +44,8 @@ PWSTR OpenROM()
 
 	if (pszFilePath == NULL)
 	{
-		throw "OpenRom()/GetRomPath(): pszFilePath is NULL";
+		MessageBox(NULL, "OpenRom()/GetRomPath(): pszFilePath is NULL", NULL, MB_OK);
+		throw;
 	}
 
 	return pszFilePath;

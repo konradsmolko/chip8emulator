@@ -9,7 +9,7 @@ typedef unsigned short int WORD;
 class Chip8CPU
 {
 public:
-	Chip8CPU(PWSTR rom);
+	Chip8CPU(PWSTR romPath);
 	~Chip8CPU();
 	void CPUReset();
 
